@@ -10,7 +10,7 @@ interface Report {
     constructor(public testcase: string, public status: 'pass' | 'fail') {}
   
     generateReport(): string {
-      return `Testcase - ${this.testcase} is ${this.status}: Application issue`;
+      return (`Testcase - ${this.testcase} is ${this.status}: Application issue`);
     }
   }
   
@@ -18,40 +18,19 @@ interface Report {
     constructor(public patientName: string, public condition: 'discharged' | 'admitted') {}
   
     generateReport(): string {
-      return `Patient ${this.patientName} has ${this.condition}: fever got cured`;
+      return (`Patient ${this.patientName} has ${this.condition}: fever got cured`);
     }
   }
   
-  function logReport(report1: Report, report2: Report) {
-    console.log(`${report1.generateReport()} ${report2.generateReport()}`);
+  function logReports(...reports: Report[]) {
+    reports.forEach((report, index) => {
+      console.log(`${index + 1}. ${report.generateReport()}`);
+    });
   }
   
-  const automationReport: Report = {
-    generateReport() {
-      return "Testcase - user login is fail: Application issue";
-    }
-  };
-  
-  const medicalReport: Report = {
-    generateReport() {
-      return "Patient xyz has discharged: fever got cured";
-    }
-  };
-  
-  logReport(
+  logReports(
     new AutomationReports('user login', 'fail'),
-    new MedicalReports('xyz', 'discharged')
-  );
-  
-  logReport(
-    {
-      generateReport() {
-        return "Testcase - user signup is pass: success";
-      }
-    },
-    {
-      generateReport() {
-        return "Patient abc has admitted: leg injury";
-      }
-    }
+    new MedicalReports('xyz', 'discharged'),
+    new AutomationReports('user signup', 'pass'),
+    new MedicalReports('abc', 'admitted')
   );
